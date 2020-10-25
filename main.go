@@ -5,15 +5,17 @@ import (
 	"strings"
 )
 
+//Currency описание данных валюты
 type Currency struct {
-	Code string
-	SCode string
-	Name string
+	Code    string
+	SCode   string
+	Name    string
 	Country string
 }
 
 var Currencies []Currency
 
+//load загрузка данных
 func load() {
 	Currencies = []Currency{
 		{Code: "971", SCode: "AFN", Name: "Afghani", Country: "AFGHANISTAN"},
@@ -295,40 +297,44 @@ func load() {
 	}
 }
 
-func init(){
+//init при инициализации запускаем обновление данных каждые 2 секунды
+func init() {
 	load()
 	gocron.Every(2).Second().Do(load) //Обновляем токен по расписанию
 	gocron.Start()
 }
 
-//GetCurrencyByCode
+//GetCurrencyByCode получить валюту по коды "398"
 func GetCurrencyByCode(code string) *Currency {
 	for _, c := range Currencies {
-		if c.Code ==  code {
+		if c.Code == code {
 			return &c
 		}
 	}
 	return nil
 }
 
+//GetCurrencyBySCode получить валюту по буквеному коду "KZT"
 func GetCurrencyBySCode(sCode string) *Currency {
 	for _, c := range Currencies {
-		if strings.ToUpper(c.SCode) ==  strings.ToUpper(sCode) {
+		if strings.ToUpper(c.SCode) == strings.ToUpper(sCode) {
 			return &c
 		}
 	}
 	return nil
 }
 
+//GetCurrencyByName получить валюту по названию "tenge"
 func GetCurrencyByName(name string) *Currency {
 	for _, c := range Currencies {
-		if strings.ToUpper(c.Name) ==  strings.ToUpper(name) {
+		if strings.ToUpper(c.Name) == strings.ToUpper(name) {
 			return &c
 		}
 	}
 	return nil
 }
 
+//GetCurrencyByCountry получить валюту по стране "Kazakhstan"
 func GetCurrencyByCountry(country string) *Currency {
 	for _, c := range Currencies {
 		if strings.ToUpper(c.Country) == strings.ToUpper(country) {
@@ -338,18 +344,20 @@ func GetCurrencyByCountry(country string) *Currency {
 	return nil
 }
 
+//GetCountrySCodeByCode получить название валюты по буквеному коду "398"
 func GetCountrySCodeByCode(code string) string {
 	for _, c := range Currencies {
-		if c.Code ==  code {
+		if c.Code == code {
 			return c.SCode
 		}
 	}
 	return ""
 }
 
+//GetCountryCodeBySCode учить буквеный код валюты по названию "KZT"
 func GetCountryCodeBySCode(sCode string) string {
 	for _, c := range Currencies {
-		if strings.ToUpper(c.SCode) ==  strings.ToUpper(sCode) {
+		if strings.ToUpper(c.SCode) == strings.ToUpper(sCode) {
 			return c.Code
 		}
 	}
